@@ -1,17 +1,18 @@
 from sqlalchemy import create_engine
-# from sqlalchemy.ext.declarative import declarative_base
-# from models import Base
 from sqlalchemy.orm import sessionmaker
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+dotenv_path = os.path.join(os.path.dirname(__file__), '../../.env')
+load_dotenv(dotenv_path)
 
 
+# Get the database URL from environment variables
+database_url = os.getenv("DATABASE_URL")
 
-#postgres url connection string
-DATABASE_URL =  "postgresql://postgres.azbstanjskqxiedbjnof:dgT28iDPMtuVGt9u@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres"
-#create a postgres engine instance
-engine = create_engine(DATABASE_URL)
- #create declarative base meta instance
+# Create a postgres engine instance
+engine = create_engine(database_url)
 
-# Base = declarative_base()
-# base = Base()
-#create session local class for session maker
-sessionlocal = sessionmaker(bind=engine,expire_on_commit=False)
+# Create session local class for session maker
+sessionlocal = sessionmaker(bind=engine, expire_on_commit=False)
