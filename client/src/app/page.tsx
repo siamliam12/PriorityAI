@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="relative flex flex-col justify-center items-center min-h-screen">
+    <div className="relative flex flex-col justify-center items-center min-h-screen bg-[#1F2937]">
       <section className="container text-center z-10">
         <h1 className="font-semibold text-5xl text-white">Welcome to</h1>
         <h2 className="text-9xl text-white font-light">PriorityAI</h2>
