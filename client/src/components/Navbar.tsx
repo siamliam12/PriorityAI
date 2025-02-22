@@ -23,7 +23,7 @@ function Navbar() {
         }
 
         const data = await response.json()
-        // console.log('User synced:', data)
+        console.log('User synced:', data)
     } catch (error) {
         console.error('Error syncing user:', error)
     }
