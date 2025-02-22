@@ -20,6 +20,19 @@ def get_session():
 def read_root():
     return {"Hello": "World"}
 
+@app.get('/get-ticket')
+async def get_ticket(db:Session=Depends(get_session)):
+    data = db.query(models.Ticket).all()
+    return {"data": data}
+
+
+@app.get('/get-ticket-by-id/{id}')
+async def get_ticket_by_id(id:int,db:Session=Depends(get_session)):
+    data = db.query(models.Ticket).filter(models.Ticket.id == id).first()
+    if data is None:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return {"data": data}
+
 
 @app.post('/create-ticket',response_model=schemas.TicketSchema)
 def create_ticket(ticket:schemas.TicketSchema,db:Session=Depends(get_session)):
@@ -32,3 +45,12 @@ def create_ticket(ticket:schemas.TicketSchema,db:Session=Depends(get_session)):
     db.commit()
     db.refresh(db_ticket)
     return db_ticket
+
+@app.put('/update-status/{id}')
+async def update_data(id:int,ticket:schemas.TicketUpdateSchema,db:Session=Depends(get_session)):
+    db_ticket = db.query(models.Ticket).filter(models.Ticket.id == id).first()
+    if ticket is None:
+        raise HTTPException(status_code=404, detail="Item not found")
+    db_ticket.severity = ticket.severity
+    db.commit()
+    return {"data": "Data has been updated successfully"}

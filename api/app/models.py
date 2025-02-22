@@ -12,5 +12,6 @@ class Ticket(Base):
     user_id = Column(String)
     ticket_number = Column(Integer)
     date = Column(String)
+    complaint_title = Column(String)
     complaint = Column(String)
     severity = Column(Enum('Low', 'Medium', 'High', name='severity_levels'))
