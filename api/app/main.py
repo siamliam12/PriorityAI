@@ -4,8 +4,17 @@ import schemas
 import models
 from database import engine,sessionlocal
 from sqlalchemy.orm import Session
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
 
 models.Base.metadata.create_all(engine)
 def get_session():
