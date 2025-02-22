@@ -25,7 +25,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchTickets = async () => {
       try {
-        const response = await fetch('https://priorityai.onrender.com/get-ticket');
+        const response = await fetch('https://random-dareen-devdec-6d35bdc3.koyeb.app/get-ticket');
         if (!response.ok) {
           throw new Error('Failed to fetch tickets');
         }

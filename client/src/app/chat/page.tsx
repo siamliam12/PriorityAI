@@ -35,7 +35,7 @@ const [error, setError] = useState<string | null>(null)
       date: new Date().toISOString() // Optional: add current date
   }
     try {
-      const response = await fetch('https://priorityai.onrender.com/create-ticket',{
+      const response = await fetch('https://random-dareen-devdec-6d35bdc3.koyeb.app/create-ticket',{
         method:'POST',
         headers:{
           'Content-Type':'application/json',
