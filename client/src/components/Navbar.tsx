@@ -4,13 +4,33 @@ import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { SquareStack } from "lucide-react";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 
 function Navbar() {
   const pathname = usePathname();
   const [path, SetPath] = useState("");
+  const syncUser = async () => {
+    try {
+        const response = await fetch('/api/user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+        if (!response.ok) {
+            throw new Error('Failed to sync user')
+        }
+
+        const data = await response.json()
+        // console.log('User synced:', data)
+    } catch (error) {
+        console.error('Error syncing user:', error)
+    }
+}
 
   useEffect(() => {
-    console.log(pathname);
+    syncUser()
     SetPath(pathname);
   }, [pathname]);
   return (
@@ -42,9 +62,15 @@ function Navbar() {
         )}
 
         <div className="flex space-x-4">
-          <Button className=" text-white px-4 py-2 rounded" asChild>
-            <Link href="/">Log In</Link>
-          </Button>
+          <SignedOut>
+            <Button asChild>
+
+            <SignInButton mode="modal"/>
+            </Button>
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
           <Button className="bg-slate-50 text-black px-4 py-2 rounded" asChild>
             <Link href="/chat">Try It Out</Link>
           </Button>

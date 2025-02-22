@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ticket {
+  id              Int              @id @default(autoincrement())
+  user_id         String?          @db.VarChar
+  ticket_number   Int?
+  date            String?          @db.VarChar
+  complaint_title String?          @db.VarChar
+  complaint       String?          @db.VarChar
+  severity        severity_levels?
+
+  @@index([id], map: "ix_ticket_id")
+}
+enum Subscription{
+  ZERO
+  DEVELOPER
+  BUSINESS
+}
+model User {
+  id        String     @id @default(cuid())
+  email     String     @unique
+  username  String     @unique
+  clerkId   String     @unique
+  name      String?
+  subscription Subscription @default(ZERO)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+enum severity_levels {
+  Low
+  Medium
+  High
+}
+

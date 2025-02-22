@@ -1,36 +1,81 @@
 'use client'
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useEffect, useState } from "react";
+
+interface Ticket {
+  id: number;
+  complaint_title: string;
+  severity: "High" | "Medium" | "Low";
+  ticket_number: number;
+  user_id: string;
+  date: string;
+  complaint: string;
+}
+
+interface ApiResponse {
+  data: Ticket[];
+}
 
 export default function Dashboard() {
-  const inquiries = [
-    { id: 1, title: "Server Outage", severity: "High" },
-    { id: 2, title: "Payment Delay", severity: "Medium" },
-    { id: 3, title: "UI Bug", severity: "Low" },
-    { id: 4, title: "Data Loss Issue", severity: "High" },
-    { id: 5, title: "Email Bounce", severity: "Medium" },
-    { id: 6, title: "Minor CSS Glitch", severity: "Low" },
-  ];
+  const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  interface Inquiry {
-    id: number;
-    title: string;
-    severity: "High" | "Medium" | "Low";
-  }
+  useEffect(() => {
+    const fetchTickets = async () => {
+      try {
+        const response = await fetch('https://priorityai.onrender.com/get-ticket');
+        if (!response.ok) {
+          throw new Error('Failed to fetch tickets');
+        }
+        const data: ApiResponse = await response.json();
+        setTickets(data.data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to fetch tickets');
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  const renderCards = (severity: Inquiry["severity"]) => 
-    inquiries
-      .filter((inq) => inq.severity === severity)
-      .map((inq) => (
-        <Card key={inq.id} className="shadow-lg border border-gray-200">
+    fetchTickets();
+  }, []);
+
+  const renderCards = (severity: Ticket["severity"]) => 
+    tickets
+      .filter((ticket) => ticket.severity === severity)
+      .map((ticket) => (
+        <Card key={ticket.id} className="shadow-lg border border-gray-200">
           <CardHeader>
-            <CardTitle>{inq.title}</CardTitle>
+            <CardTitle>{ticket.complaint_title}</CardTitle>
           </CardHeader>
           <CardContent>
-            Severity: {inq.severity.charAt(0).toUpperCase() + inq.severity.slice(1)}
+            <div className="space-y-2">
+              <p>Date: {ticket.date}</p>
+              <p>Ticket #: {ticket.ticket_number}</p>
+              <p className="text-sm text-gray-400">
+                {new Date(ticket.date).toLocaleDateString()}
+              </p>
+            </div>
           </CardContent>
         </Card>
       ));
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-gray-900">
+        <p className="text-white">Loading tickets...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-gray-900">
+        <p className="text-red-500">Error: {error}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="p-8 min-h-screen bg-gray-900 text-white">
