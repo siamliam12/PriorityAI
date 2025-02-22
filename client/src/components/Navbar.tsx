@@ -3,6 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
+import { SquareStack } from "lucide-react";
 
 function Navbar() {
   const pathname = usePathname();
@@ -15,7 +16,8 @@ function Navbar() {
   return (
     <nav className="bg-gray-800 p-4 sticky top-0 shadow-lg z-50">
       <div className="container mx-auto flex justify-between items-center">
-        <div className="text-white text-lg">
+        <div className="text-white text-lg flex">
+        <SquareStack className="pr-2"/>
           <span className="font-mono">
             <Link href="/" passHref>
               PriorityAI
