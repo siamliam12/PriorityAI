@@ -5,6 +5,7 @@ import models
 from database import engine,sessionlocal
 from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
+from script.ai import AI
 
 app = FastAPI()
 # Add CORS middleware
@@ -29,11 +30,28 @@ def get_session():
 def read_root():
     return {"Hello": "World"}
 
+@app.put("/dashboard")
+async def use_ai(db:Session=Depends(get_session)):
+    data = db.query(models.Ticket).all()
+    severity_results = []
+    for db_ticket in data:
+        title = db_ticket.complaint_title
+        complain = db_ticket.complaint    
+        try:
+            severity = await AI.get_severity(title, complain)
+            print(f"Severity response: {severity}")
+            db_ticket.severity = severity
+            db.commit()
+            severity_results.append({"ticket_id": db_ticket.id, "severity": severity})
+        except Exception as e:
+            print(f"Error in AI processing: {e}")
+            severity_results.append({"ticket_id": db_ticket.id, "severity": "didn't work"})
+    return {"severity_results": severity_results}
+
 @app.get('/get-ticket')
 async def get_ticket(db:Session=Depends(get_session)):
     data = db.query(models.Ticket).all()
     return {"data": data}
-
 
 @app.get('/get-ticket-by-id/{id}')
 async def get_ticket_by_id(id:int,db:Session=Depends(get_session)):

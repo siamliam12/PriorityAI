@@ -13,3 +13,7 @@ class TicketSchema(BaseModel):
 # Schema for updating tickets
 class TicketUpdateSchema(BaseModel):
     severity: Optional[Literal['Low', 'Medium', 'High']]
+
+class AiSortingSchema(BaseModel):
+    complaint_title : Optional[str]
+    complain : Optional[str]
