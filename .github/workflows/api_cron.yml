@@ -1,0 +1,14 @@
+name: Call API Every 5 Minutes
+
+on:
+  schedule:
+    - cron: '*/5 * * * *' # Runs every 5 minutes
+  workflow_dispatch: # Allows manual triggering if needed
+
+jobs:
+  call-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Make API Request
+        run: |
+          curl -X PUT "https://random-dareen-devdec-6d35bdc3.koyeb.app/dashboard"
