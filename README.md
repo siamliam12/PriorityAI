@@ -85,15 +85,15 @@ Create a `.env` file in both the `backend` and `frontend` directories with the n
 
 ## 📚 Resources
 
-- [IBM Granite AI Hackathon](https://example.com)
-- [Langflow Documentation](https://example.com)
-- [Cohere API Docs](https://example.com)
+- [IBM Granite AI Hackathon](https://lablab.ai/event/generative-ai-hackathon-with-ibm-granite)
+- [Langflow Documentation](https://docs.langflow.org/)
+- [Cohere API Docs](https://docs.cohere.com/cohere-documentation)
 
 ## 🎬 Demo
 A live demo and project breakdown will be available soon on:
-- **[YouTube Podcast](https://example.com)**
-- **[Dev.to](https://example.com)**
-- **[Article Website](https://example.com)**
+- **[YouTube Podcast](https://www.youtube.com/@lunstra_studios)**
+- **[Dev.to](https://dev.to/siam_ahmed_686b7476076fdb)**
+- **[Article Website](https://the-nerdy-espresso.vercel.app/)**
 
 ## 🏅 Acknowledgments
 
@@ -104,7 +104,7 @@ Special thanks to the IBM Granite AI Hackathon organizers and my fellow develope
 Feel free to raise issues, contribute to the project, or share feedback!
 
 **MD Siam Ahmed**  
-[GitHub](https://github.com/yourusername) | [LinkedIn](https://linkedin.com/in/yourusername) | [Twitter](https://twitter.com/yourusername)
+[GitHub](https://github.com/siamliam12) | [LinkedIn](https://www.linkedin.com/in/siam-ahmed-349b241b9/) 
 
 ---
 
