@@ -11,4 +11,10 @@ jobs:
     steps:
       - name: Make API Request
         run: |
-          curl -X PUT "https://random-dareen-devdec-6d35bdc3.koyeb.app/dashboard"
+          echo "Running API call at $(date)"
+          response=$(curl -s -o /dev/null -w "%{http_code}" -X PUT "https://random-dareen-devdec-6d35bdc3.koyeb.app/dashboard")
+          echo "Response code: $response"
+          if [ "$response" -ne 200 ]; then
+            echo "API call failed with status $response"
+            exit 1
+          fi
