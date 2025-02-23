@@ -3,18 +3,13 @@ name: Call API Every 5 Minutes
 on:
   schedule:
     - cron: '*/5 * * * *' # Runs every 5 minutes
-  workflow_dispatch: # Allows manual triggering if needed
+  workflow_dispatch:
 
 jobs:
   call-api:
     runs-on: ubuntu-latest
     steps:
-      - name: Make API Request
+      - name: Make PUT Request
         run: |
-          echo "Running API call at $(date)"
-          response=$(curl -s -o /dev/null -w "%{http_code}" -X PUT "https://random-dareen-devdec-6d35bdc3.koyeb.app/dashboard")
-          echo "Response code: $response"
-          if [ "$response" -ne 200 ]; then
-            echo "API call failed with status $response"
-            exit 1
-          fi
+          curl -X PUT "https://random-dareen-devdec-6d35bdc3.koyeb.app/dashboard"
+
