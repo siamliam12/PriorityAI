@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 
@@ -21,6 +22,7 @@ export default function Dashboard() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
 
   useEffect(() => {
     const fetchTickets = async () => {
@@ -47,15 +49,15 @@ export default function Dashboard() {
       .map((ticket) => (
         <Card key={ticket.id} className="shadow-lg border border-gray-200">
           <CardHeader>
-            <CardTitle>{ticket.complaint_title}</CardTitle>
+            <CardTitle>{ticket.complaint_title.slice(0, 30)}{ticket.complaint_title.length > 30 && '...'}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              <p>Date: {ticket.date}</p>
               <p>Ticket #: {ticket.ticket_number}</p>
               <p className="text-sm text-gray-400">
                 {new Date(ticket.date).toLocaleDateString()}
               </p>
+              <Button onClick={() => setSelectedTicket(ticket)}>desc</Button>
             </div>
           </CardContent>
         </Card>
@@ -94,6 +96,23 @@ export default function Dashboard() {
           {renderCards("Low")}
         </div>
       </div>
+
+      {selectedTicket && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <Card className="w-[90%] md:w-[50%] p-6 bg-white text-black">
+            <CardHeader>
+              <CardTitle>{selectedTicket.complaint_title}</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p><strong>Ticket : #</strong>{selectedTicket.ticket_number}</p>
+              <p><strong>Date: </strong>{new Date(selectedTicket.date).toLocaleDateString()}</p>
+              <p><strong>Severity: </strong>{selectedTicket.severity}</p>
+              <p><strong>Complaint: </strong>{selectedTicket.complaint}</p>
+              <Button onClick={() => setSelectedTicket(null)} className="mt-4">Close</Button>
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
   );
 }

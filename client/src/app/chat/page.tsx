@@ -1,5 +1,6 @@
 "use client"
 
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 interface TicketFormData {
   user_id?: string;
@@ -11,7 +12,7 @@ interface TicketFormData {
 }
 
 function Page() {
-
+  const router = useRouter()
   const [formData, setFormData] = useState<TicketFormData>({
     complaint_title: '',
     complaint: '',
@@ -48,6 +49,7 @@ const [error, setError] = useState<string | null>(null)
     const data = await response.json()
     console.log('Ticket created:', data)
     
+    router.push('/submission')
     // Reset form after successful submission
     setFormData({
         complaint_title: '',

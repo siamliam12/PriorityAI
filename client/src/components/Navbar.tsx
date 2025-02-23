@@ -55,9 +55,6 @@ function Navbar() {
             <Link href="/pricing" passHref className="text-white">
               Pricing
             </Link>
-            <Link href="/contact" passHref className="text-white">
-              Contact
-            </Link>
           </div>
         )}
 
